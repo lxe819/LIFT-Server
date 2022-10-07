@@ -31,5 +31,21 @@ router.post("/", async (req, res) => {
     }
 }); 
 
+/**************************************************************
+SHOW one user
+**************************************************************/
+router.get("/:id", async (req, res) => {
+    const { id } = req.params; 
+    try {
+        const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [id]); 
+        if (user.rows.length === 0){
+            res.send("No user found.")
+        }
+        res.json(user.rows); 
+    } catch (error) {
+        console.error(error.message); 
+        res.send(error["detail"]); 
+    }
+})
 
 module.exports = router; 
