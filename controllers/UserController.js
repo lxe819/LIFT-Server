@@ -48,4 +48,19 @@ router.get("/:id", async (req, res) => {
     }
 })
 
+/**************************************************************
+UPDATE one user
+**************************************************************/
+router.put("/:id", async (req, res) => {
+    const { id } = req.params; 
+    const { username, email } = req.body; 
+
+    try {
+        const updateUser = pool.query("UPDATE users SET username = $1, email = $2 WHERE user_id = $3 RETURNING *", [username, email, id]); 
+        res.json({ message: "User details updated!", user: updateUser.rows}); 
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+
 module.exports = router; 
