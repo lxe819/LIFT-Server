@@ -20,7 +20,12 @@ router.post("/", async (req, res) => {
     } else {
         const encryptedPw = bcrypt.hashSync(password, 10); 
         const newUser = pool.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *", [username, email, encryptedPw]); 
-        const payload = { username, email, isAdmin: false}
+
+        //! Fetch the user_id (Just added this)
+        const userID_data = pool.query("SELECT user_id FROM users WHERE username = $1", [username]); 
+        const user_id = userID_data.rows[0].user_id; 
+
+        const payload = { user_id, username, email, admin: false}
         const token = jwt.sign(payload, SECRET_KEY); 
 
         res.json({
@@ -37,7 +42,7 @@ SHOW one user
 router.get("/:id", async (req, res) => {
     const { id } = req.params; 
     try {
-        const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [id]); 
+        const user = await pool.query("SELECT username, email FROM users WHERE user_id = $1", [id]); 
         if (user.rows.length === 0){
             res.send("No user found.")
         }
