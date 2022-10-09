@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const UserController = require("./controllers/UserController"); 
 const PurchaseController = require("./controllers/PurchaseController"); 
 const CartController = require("./controllers/CartController"); 
+const CategoriesController = require("./controllers/CategoriesController"); 
+const ProductsController = require("./controllers/ProductsController")
 
 const PORT = process.env.PORT; 
 const SECRET_KEY = process.env.SECRET_KEY; 
@@ -19,6 +21,8 @@ app.use(express.json());
 app.use("/users", UserController); 
 app.use("/purchases", PurchaseController); 
 app.use("/cart", CartController); 
+app.use("/categories", CategoriesController); 
+app.use("/products", ProductsController); 
 
 
 app.get("/", async (req, res) => {

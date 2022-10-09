@@ -3,12 +3,13 @@ const pool = require("../db");
 require("dotenv").config();
 
 const isStockAvailable = async (req, res, next) => {
-    const { name, quantity } = req.body; 
+    const { product_id, quantity, size } = req.body; 
+    //! To INCLUDE "size" in the req.body for frontend!!
 
     try {
-        const product_stock = await pool.query("SELECT stock FROM products WHERE product_name = $1", [name]); 
-        const stockNum = product_stock.rows[0].stock; 
-        if (stockNum - quantity >= 0){
+        const product_stock = await pool.query("SELECT stock_qty ->> $1 FROM products WHERE product_id = $2", [size, product_id]); 
+        const stockNum = Object.values(product_stock.rows[0])[0]; 
+        if (parseInt(stockNum) - quantity >= 0){
             next(); 
         } else {
             // res.json({message: stockNum}); 
