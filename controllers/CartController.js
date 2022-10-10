@@ -58,7 +58,7 @@ router.put("/:id", isStockAvailable, async (req, res) => {
         })
     } catch (error) {
         console.error(error.message); 
-        res.json({ message: error }); 
+        res.json({ message: error.message }); 
     }
 }); 
 
