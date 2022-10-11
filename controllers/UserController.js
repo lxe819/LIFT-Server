@@ -22,16 +22,17 @@ router.post("/", async (req, res) => {
         const newUser = pool.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *", [username, email, encryptedPw]); 
 
         //! Fetch the user_id (Just added this)
-        const userID_data = pool.query("SELECT user_id FROM users WHERE username = $1", [username]); 
-        const user_id = userID_data.rows[0].user_id; 
+        // const userID_data = pool.query("SELECT user_id FROM users WHERE username = $1", [username]); 
+        // const user_id = userID_data.rows[0].user_id; 
 
-        const payload = { user_id, username, email, admin: false}
-        const token = jwt.sign(payload, SECRET_KEY); 
+        // const payload = { user_id, username, email, admin: false}
+        // const token = jwt.sign(payload, SECRET_KEY); 
 
         res.json({
             message: "User added!", 
-            token: token, 
-            user: newUser
+            // newUserID: userID_data.rows,
+            // token: token, 
+            user: newUser.rows
         })
     }
 }); 
