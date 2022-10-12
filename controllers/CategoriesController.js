@@ -7,10 +7,6 @@ const pool = require("../db");
 // const SECRET_KEY = process.env.SECRET_KEY;
 // const isStockAvailable = require("../helpers/checkStock"); 
 
-/**************************************************************
-CREATE a purchase 
-**************************************************************/
-
 
 /**************************************************************
 INDEX route - READ all categories

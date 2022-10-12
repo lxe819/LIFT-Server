@@ -110,7 +110,7 @@ router.get("/", async (req, res) => {
     const user_id = payload.user_id; 
 
     try {
-        const purchases = await pool.query("SELECT * FROM purchases WHERE user_id = $1", [user_id]); 
+        const purchases = await pool.query("SELECT * FROM purchases WHERE user_id = $1 ORDER BY purchased_on DESC", [user_id]); 
         res.json({purchases: purchases.rows}); 
         
     } catch (error) {

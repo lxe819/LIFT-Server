@@ -48,6 +48,21 @@ router.get("/", async (req, res) => {
 }); 
 
 
+/**************************************************************
+INDEX route - READ all products with category name 
+(Inner Join products x categories)
+**************************************************************/
+router.get("/categoryname", async (req, res) => {
+    try {
+        const allProducts = await pool.query("SELECT p.product_id, p.product_name, p.images, p.short_desc, p.unit_price, p.sizing, c.category_name FROM products p JOIN categories c USING (category_id) ORDER BY product_id"); 
+        res.json({allProducts: allProducts.rows}); 
+    } catch (error) {
+        console.error(error.message); 
+        res.json({message: error})
+    }
+})
+
+
 module.exports = router; 
 
 /**************************************************************

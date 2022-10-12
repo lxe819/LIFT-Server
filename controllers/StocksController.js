@@ -16,6 +16,19 @@ router.get("/", async (req, res) => {
 }); 
 
 /**************************************************************
+INDEX route - READ stock_qty of ALL products
+**************************************************************/
+router.get("/productname", async (req, res) => {
+    try {
+        const stocks = await pool.query("SELECT s.stock_id, s.product_id, p.product_name, s.stock_size, s.stock_qty FROM stocks s JOIN products p USING (product_id) ORDER BY product_id"); 
+        res.json({ stocks: stocks.rows}); 
+    } catch (error) {
+        console.error(error.message); 
+        res.json({message: error})
+    }
+})
+
+/**************************************************************
 UPDATE route - update one stock_qty
 **************************************************************/
 
