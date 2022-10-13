@@ -8,7 +8,7 @@ INDEX route - READ all products for selected category
 router.get("/category/:category_id", async (req, res) => {
     try {
         const { category_id } = req.params; 
-        const products = await pool.query("SELECT * FROM products WHERE category_id = $1", [category_id]); 
+        const products = await pool.query("SELECT p.product_id, p.product_name, p.images, p.short_desc, p.unit_price,  p.sizing, c.category_id, c.category_name FROM products p JOIN categories c USING (category_id) WHERE category_id = $1", [category_id]); 
         res.json({ products: products.rows }); 
         
     } catch (error) {
@@ -62,6 +62,22 @@ router.get("/categoryname", async (req, res) => {
     }
 })
 
+
+/**************************************************************
+INDEX route - READ all products with display_tag "Featured" | "Popular" | "New"
+(Querying ARRAY[])
+**************************************************************/
+router.get("/displaytag", async (req, res) => {
+    try {
+        const featuredItems = await pool.query("SELECT * FROM products WHERE 'Featured' = ANY(display_tag)"); 
+        const newItems = await pool.query("SELECT * FROM products WHERE 'New' = ANY(display_tag)"); 
+        const popularItems = await pool.query("SELECT * FROM products WHERE 'Popular' = ANY(display_tag)"); 
+        res.json({ featuredItems: featuredItems.rows, newItems: newItems.rows, popularItems: popularItems.rows }); 
+    } catch (error) {
+        console.error(error.message); 
+        res.json({message: error}); 
+    }
+})
 
 module.exports = router; 
 

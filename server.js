@@ -14,6 +14,7 @@ const ProductsController = require("./controllers/ProductsController");
 const StocksController = require("./controllers/StocksController"); 
 const WishlistController = require("./controllers/WishlistController"); 
 const GymExpController = require("./controllers/GymExpController"); 
+const LandingPageController = require("./controllers/LandingPageController")
 
 const PORT = process.env.PORT; 
 const SECRET_KEY = process.env.SECRET_KEY; 
@@ -29,6 +30,7 @@ app.use("/products", ProductsController);
 app.use("/stocks", StocksController); 
 app.use("/wishlist", WishlistController); 
 app.use("/interest", GymExpController); 
+app.use("/landing", LandingPageController); 
 
 
 app.get("/", async (req, res) => {
