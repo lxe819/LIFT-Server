@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
     if (usernameData.rows.length !== 0){
         res.json({ message: "Username already exists."}); 
     } else if (emailData.rows.length !== 0) {
-        res.json({ message: "Username already exists."});
+        res.json({ message: "Email already exists."});
     } else {
         const encryptedPw = bcrypt.hashSync(password, 10); 
         const newUser = pool.query("INSERT INTO users (username, email, password, gender, gym_exp_level) VALUES ($1, $2, $3, $4, $5) RETURNING *", [username, email, encryptedPw, gender, gymExperience]); 
